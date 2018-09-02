@@ -41,6 +41,7 @@ def handle(msg):
 
         bot.sendMessage(chat_id, timeline_msg, reply_markup=markup)
 
+        # Set the new user_state
         user_state[chat_id] = 1
 
     elif user_state[chat_id] == 1:
@@ -49,6 +50,33 @@ def handle(msg):
             bot.sendMessage(chat_id, "1950 STYLE", reply_markup=ReplyKeyboardRemove(remove_keyboard=True))
         elif command_input == "1966":
             bot.sendMessage(chat_id, "1966 STYLE", reply_markup=ReplyKeyboardRemove(remove_keyboard=True))
+        elif command_input == "1972":
+            bot.sendMessage(chat_id, "1972 STYLE", reply_markup=ReplyKeyboardRemove(remove_keyboard=True))
+        elif command_input == "1988":
+            bot.sendMessage(chat_id, "1988 STYLE", reply_markup=ReplyKeyboardRemove(remove_keyboard=True))
+        elif command_input == "1992":
+            bot.sendMessage(chat_id, "1992 STYLE", reply_markup=ReplyKeyboardRemove(remove_keyboard=True))
+        elif command_input == "2000":
+            bot.sendMessage(chat_id, "2000 STYLE", reply_markup=ReplyKeyboardRemove(remove_keyboard=True))
+        elif command_input == "2005":
+            bot.sendMessage(chat_id, "2005 STYLE", reply_markup=ReplyKeyboardRemove(remove_keyboard=True))
+        elif command_input == "2006":
+            bot.sendMessage(chat_id, "2006 STYLE", reply_markup=ReplyKeyboardRemove(remove_keyboard=True))
+        elif command_input == "2007":
+            bot.sendMessage(chat_id, "2007 STYLE", reply_markup=ReplyKeyboardRemove(remove_keyboard=True))
+        elif command_input == "2015":
+            bot.sendMessage(chat_id, "2015 STYLE", reply_markup=ReplyKeyboardRemove(remove_keyboard=True))
+        elif command_input == "2016":
+            bot.sendMessage(chat_id, "2016 STYLE", reply_markup=ReplyKeyboardRemove(remove_keyboard=True))
+        elif command_input == "2017":
+            bot.sendMessage(chat_id, "2017 STYLE", reply_markup=ReplyKeyboardRemove(remove_keyboard=True))
+
+        ####################################################
+        #    Inserire le tappe per la visualizzazione      #
+        #    delle informazioni relative all'Evoluzione    #
+        #    dei Chat Bot, link -> https://goo.gl/FXVbNu   #
+        ####################################################
+
         else:
             bot.sendMessage(chat_id, "Il messaggio inserito non è valido", reply_markup=ReplyKeyboardRemove(remove_keyboard=True))
 
