@@ -25,7 +25,32 @@ def handle(msg):
         bot.sendMessage(chat_id, info_msg, parse_mode = "Markdown")
 
     elif command_input == "/timeline" or command_input == "/info@MakerSpaceFabrianoBot":
-        bot.sendMessage(chat_id, timeline_msg)
+        markup = ReplyKeyboardMarkup(keyboard=[
+                        ["1950"],
+                        ["1966"],
+                        ["1972"],
+                        ["1988"],
+                        ["1992"],
+                        ["2000"],
+                        ["2005"],
+                        ["2006"],
+                        ["2007"],
+                        ["2015"],
+                        ["2016"],
+                        ["2017"]])
+
+        bot.sendMessage(chat_id, timeline_msg, reply_markup=markup)
+
+        user_state[chat_id] = 1
+
+    elif user_state[chat_id] == 1:
+
+        if command_input == "1950":
+            bot.sendMessage(chat_id, "1950 STYLE", reply_markup=ReplyKeyboardRemove(remove_keyboard=True))
+        elif command_input == "1966":
+            bot.sendMessage(chat_id, "1966 STYLE", reply_markup=ReplyKeyboardRemove(remove_keyboard=True))
+        else:
+            bot.sendMessage(chat_id, "Il messaggio inserito non è valido", reply_markup=ReplyKeyboardRemove(remove_keyboard=True))
 
 # PID file
 pid = str(os.getpid())
