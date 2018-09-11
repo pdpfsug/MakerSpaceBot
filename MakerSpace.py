@@ -3,7 +3,7 @@ import sys
 import telepot
 import time
 from telepot.namedtuple import ReplyKeyboardMarkup, ReplyKeyboardRemove, InlineKeyboardMarkup, InlineKeyboardButton
-from settings import TOKEN, start_msg, help_msg, info_msg, timeline_msg
+from settings import TOKEN, start_msg, help_msg, info_msg, timeline_msg, msg_style
 
 # State for user
 user_state = {}
@@ -14,6 +14,24 @@ def handle(msg):
     chat_id = msg['chat']['id']
     command_input = msg['text']
 
+    # Getting information to print debug msg
+    try:
+        username  = msg['from']['username']
+    except:
+        username  = "Not defined"
+
+    try:
+        full_name = msg['from']['first_name'] + ' ' + msg['from']['last_name']
+    except:
+        full_name = "Not defined"
+
+    if username == "Not defined":
+        username = full_name
+
+    # Prints msg from the user
+    print("Msg from @{}[{}]: \"{}\"".format(username.ljust(16), chat_id, command_input))
+
+    # Commands
     if command_input == "/start" or command_input == "/start@MakerSpaceFabrianoBot":
         bot.sendMessage(chat_id, start_msg)
 
@@ -22,22 +40,29 @@ def handle(msg):
 
     elif command_input == "/info" or command_input == "/info@MakerSpaceFabrianoBot":
         bot.sendPhoto(chat_id, "https://i.imgur.com/reAMlzj.jpg")
-        bot.sendMessage(chat_id, info_msg, parse_mode = "Markdown")
+        keyboard = InlineKeyboardMarkup(inline_keyboard=[
+            [dict(text = 'Pagina successiva  >>', callback_data = 'info_next_page_1')]])
 
-    elif command_input == "/timeline" or command_input == "/info@MakerSpaceFabrianoBot":
+        bot.sendMessage(chat_id, info_msg[0], reply_markup=keyboard, parse_mode = "Markdown")
+
+    elif command_input == "/timeline" or command_input == "/timeline@MakerSpaceFabrianoBot":
         markup = ReplyKeyboardMarkup(keyboard=[
                         ["1950"],
                         ["1966"],
                         ["1972"],
                         ["1988"],
-                        ["1992"],
+                        ["1992 - Parte 1"],
+                        ["1992 - Parte 2"],
                         ["2000"],
                         ["2005"],
                         ["2006"],
                         ["2007"],
                         ["2015"],
-                        ["2016"],
-                        ["2017"]])
+                        ["2016 - Parte 1"],
+                        ["2016 - Parte 2"],
+                        ["2016 - Parte 3"],
+                        ["2017 - Parte 1"],
+                        ["2017 - Parte 2"]])
 
         bot.sendMessage(chat_id, timeline_msg, reply_markup=markup)
 
@@ -45,31 +70,10 @@ def handle(msg):
         user_state[chat_id] = 1
 
     elif user_state[chat_id] == 1:
-
-        if command_input == "1950":
-            bot.sendMessage(chat_id, "1950 STYLE", reply_markup=ReplyKeyboardRemove(remove_keyboard=True))
-        elif command_input == "1966":
-            bot.sendMessage(chat_id, "1966 STYLE", reply_markup=ReplyKeyboardRemove(remove_keyboard=True))
-        elif command_input == "1972":
-            bot.sendMessage(chat_id, "1972 STYLE", reply_markup=ReplyKeyboardRemove(remove_keyboard=True))
-        elif command_input == "1988":
-            bot.sendMessage(chat_id, "1988 STYLE", reply_markup=ReplyKeyboardRemove(remove_keyboard=True))
-        elif command_input == "1992":
-            bot.sendMessage(chat_id, "1992 STYLE", reply_markup=ReplyKeyboardRemove(remove_keyboard=True))
-        elif command_input == "2000":
-            bot.sendMessage(chat_id, "2000 STYLE", reply_markup=ReplyKeyboardRemove(remove_keyboard=True))
-        elif command_input == "2005":
-            bot.sendMessage(chat_id, "2005 STYLE", reply_markup=ReplyKeyboardRemove(remove_keyboard=True))
-        elif command_input == "2006":
-            bot.sendMessage(chat_id, "2006 STYLE", reply_markup=ReplyKeyboardRemove(remove_keyboard=True))
-        elif command_input == "2007":
-            bot.sendMessage(chat_id, "2007 STYLE", reply_markup=ReplyKeyboardRemove(remove_keyboard=True))
-        elif command_input == "2015":
-            bot.sendMessage(chat_id, "2015 STYLE", reply_markup=ReplyKeyboardRemove(remove_keyboard=True))
-        elif command_input == "2016":
-            bot.sendMessage(chat_id, "2016 STYLE", reply_markup=ReplyKeyboardRemove(remove_keyboard=True))
-        elif command_input == "2017":
-            bot.sendMessage(chat_id, "2017 STYLE", reply_markup=ReplyKeyboardRemove(remove_keyboard=True))
+        try:
+            bot.sendMessage(chat_id, msg_style[command_input], reply_markup=ReplyKeyboardRemove(remove_keyboard=True))
+        except KeyError:
+            bot.sendMessage(chat_id, "La data inserita non è valida", reply_markup=ReplyKeyboardRemove(remove_keyboard=True))
 
         ####################################################
         #    Inserire le tappe per la visualizzazione      #
@@ -77,8 +81,35 @@ def handle(msg):
         #    dei Chat Bot, link -> https://goo.gl/FXVbNu   #
         ####################################################
 
-        else:
-            bot.sendMessage(chat_id, "Il messaggio inserito non è valido", reply_markup=ReplyKeyboardRemove(remove_keyboard=True))
+    else:
+        bot.sendMessage(chat_id, "Il messaggio inserito non è valido", reply_markup=ReplyKeyboardRemove(remove_keyboard=True))
+
+def on_callback_query(msg):
+    """
+    Function to manage callback query from callback buttons in inline keyboards
+    """
+    query_id, from_id, query_data = telepot.glance(msg, flavor='callback_query')
+
+    if query_data == 'info_next_page_0':
+        keyboard = InlineKeyboardMarkup(inline_keyboard=[
+            [dict(text = 'Pagina successiva  >>', callback_data = 'info_next_page_1')]])
+
+        bot.editMessageText((from_id, msg['message']['message_id']), info_msg[0], reply_markup = keyboard, parse_mode = "Markdown")
+        bot.answerCallbackQuery(query_id, text = "Buona lettura!")
+
+    if query_data == 'info_next_page_1':
+        keyboard = InlineKeyboardMarkup(inline_keyboard=[
+            [dict(text = '<<  Pagina precendente', callback_data = 'info_next_page_0'), dict(text = 'Pagina successiva  >>', callback_data = 'info_next_page_2')]])
+
+        bot.editMessageText((from_id, msg['message']['message_id']), info_msg[1], reply_markup = keyboard, parse_mode = "Markdown")
+        bot.answerCallbackQuery(query_id, text = "Buona lettura!")
+
+    if query_data == 'info_next_page_2':
+        keyboard = InlineKeyboardMarkup(inline_keyboard=[
+            [dict(text = '<<  Pagina precendente', callback_data = 'info_next_page_1')]])
+
+        bot.editMessageText((from_id, msg['message']['message_id']), info_msg[2], reply_markup = keyboard, parse_mode = "Markdown")
+        bot.answerCallbackQuery(query_id, text = "Buona lettura!")
 
 # PID file
 pid = str(os.getpid())
@@ -99,7 +130,8 @@ print('Vediamo quello che succede...')
 try:
     bot = telepot.Bot(TOKEN)
 
-    bot.message_loop({'chat': handle})
+    bot.message_loop({'chat': handle,
+                      'callback_query': on_callback_query})
 
 finally:
     # Remove PID file on exit
