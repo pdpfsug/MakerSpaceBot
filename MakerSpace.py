@@ -45,7 +45,7 @@ def handle(msg):
 
         bot.sendMessage(chat_id, info_msg[0], reply_markup=keyboard, parse_mode = "Markdown")
 
-    elif command_input == "/timeline" or command_input == "/timeline@MakerSpaceFabrianoBot":
+    elif command_input == "/timeline" or command_input == "/timeline@MakerSpaceFabrianoBot" or command_input == "Indietro":
         markup = ReplyKeyboardMarkup(keyboard=[
                         ["1950"],
                         ["1966"],
@@ -71,7 +71,8 @@ def handle(msg):
 
     elif user_state[chat_id] == 1:
         try:
-            bot.sendMessage(chat_id, msg_style[command_input], reply_markup=ReplyKeyboardRemove(remove_keyboard=True))
+            markup = ReplyKeyboardMarkup(keyboard=[["Indietro"]], resize_keyboard=True)
+            bot.sendMessage(chat_id, msg_style[command_input], reply_markup=markup)
         except KeyError:
             bot.sendMessage(chat_id, "La data inserita non è valida", reply_markup=ReplyKeyboardRemove(remove_keyboard=True))
 
