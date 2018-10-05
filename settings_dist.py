@@ -95,12 +95,12 @@ msg_style['2007'] = "Microsoft lancia Doretta, un assistente virtuale in grado d
 msg_style['2015'] = "Telegram lancia la possibilità inserire Agenti Virtuali in grado di rispondere a comandi, programmabi" \
                  "li sia in maniera visuale che utilizzando librerie proprietarie"
 
-msg_style['2016 - Parte uno'] = "Facebook decide di aprire l'accesso ai bot sulla sua piattaforma di messaggistica istantanea Messenger "
+msg_style['2016 - Parte 1'] = "Facebook decide di aprire l'accesso ai bot sulla sua piattaforma di messaggistica istantanea Messenger "
 
-msg_style['2016 - Parte due'] = "Viene presentato GETrid, uno tra i primi Chatterbot con risvolti pratici nella vita comune: un assist" \
+msg_style['2016 - Parte 2'] = "Viene presentato GETrid, uno tra i primi Chatterbot con risvolti pratici nella vita comune: un assist" \
                    "ente virtuale in grado di consigliare il corretto modus operandi nella fase di riciclo di un oggetto."
 
-msg_style['2016 - Parte tre'] = "Amazon Echo (abbreviato e indicato come Echo) è un marchio di altoparlanti intelligenti sviluppato da" \
+msg_style['2016 - Parte 3'] = "Amazon Echo (abbreviato e indicato come Echo) è un marchio di altoparlanti intelligenti sviluppato da" \
                    " Amazon.com. I dispositivi si connettono all'assistente personale intelligente a comando vocale denom" \
                    """inato Amazon Alexa, che risponde all'utente al nome "Alexa". Questa "parola sveglia" può essere modif""" \
                    """icata dall'utente in "Amazon", "Echo" o "Computer"[1]. Il dispositivo è in grado di interagire con la""" \
