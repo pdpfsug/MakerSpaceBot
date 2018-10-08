@@ -34,6 +34,7 @@ def handle(msg):
     # Commands
     if command_input == "/start" or command_input == "/start@MakerSpaceFabrianoBot":
         bot.sendMessage(chat_id, start_msg)
+        user_state[chat_id] = 0
 
     elif command_input == "/help" or command_input == "/help@MakerSpaceFabrianoBot":
         bot.sendMessage(chat_id, help_msg)
@@ -45,7 +46,10 @@ def handle(msg):
 
         bot.sendMessage(chat_id, info_msg[0], reply_markup=keyboard, parse_mode = "Markdown")
 
-    elif command_input == "/timeline" or command_input == "/timeline@MakerSpaceFabrianoBot" or command_input == "Indietro":
+    elif (command_input == "Indietro" and user_state[chat_id] == 1):
+        bot.sendMessage(chat_id, start_msg, reply_markup = ReplyKeyboardRemove(remove_keyboard = True))
+
+    elif command_input == "/timeline" or command_input == "/timeline@MakerSpaceFabrianoBot" or (command_input == "Indietro" and user_state[chat_id] == 0):
         markup = ReplyKeyboardMarkup(keyboard=[
                         ["1950"],
                         ["1966"],
@@ -62,7 +66,8 @@ def handle(msg):
                         ["2016 - Parte 2"],
                         ["2016 - Parte 3"],
                         ["2017 - Parte 1"],
-                        ["2017 - Parte 2"]])
+                        ["2017 - Parte 2"],
+                        ["Indietro"]])
 
         bot.sendMessage(chat_id, timeline_msg, reply_markup=markup)
 
@@ -73,8 +78,10 @@ def handle(msg):
         try:
             markup = ReplyKeyboardMarkup(keyboard=[["Indietro"]], resize_keyboard=True)
             bot.sendMessage(chat_id, msg_style[command_input], reply_markup=markup)
+            user_state[chat_id] = 0
         except KeyError:
             bot.sendMessage(chat_id, "La data inserita non è valida", reply_markup=ReplyKeyboardRemove(remove_keyboard=True))
+            user_state[chat_id] = 0
 
         ####################################################
         #    Inserire le tappe per la visualizzazione      #
